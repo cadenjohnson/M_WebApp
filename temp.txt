@@ -1,0 +1,82 @@
+# Class for todo Database
+class Todo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    content = db.Column(db.String(200), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    #user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # used to create the other half of the one-to-many relationship with user table
+
+    # returns a string every time new element is created
+    def __repr__(self):
+        return '<Task %r>' % self.id
+
+
+# Class for calendar Database
+class Calendar(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    content = db.Column(db.String(200), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    date_scheduled = db.Column(db.Date, nullable=False)
+
+    # returns a string every time new element is created
+    def __repr__(self):
+        return '<Event %r>' % self.id
+
+
+# Class for spotify Database
+class Spotify(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    device_formal_name = db.Column(db.String(200), nullable=False)
+    device_name = db.Column(db.String(200))
+    active = db.Column(db.Boolean, nullable=False)
+    currently_playing = db.Column(db.String(200))
+    playing = db.Column(db.Boolean)
+    shuffle = db.Column(db.Boolean)
+    volume = db.Column(db.Integer)
+
+    # returns a string every time new element is created
+    def __repr__(self):
+        return '<Device %r>' % self.id
+
+
+# Class for weather Database
+class Weather(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    location_name = db.Column(db.String(200), nullable=False)
+    time_updated = db.Column(db.DateTime, default=datetime.utcnow)
+    temperature = db.Column(db.Integer, nullable=False)
+    humidity = db.Column(db.Integer, nullable=False)
+    precipitation = db.Column(db.Integer, nullable=False)
+
+    # returns a string every time new element is created
+    def __repr__(self):
+        return '<Location %r>' % self.id
+
+
+# Class for cameras Database
+class Cameras(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    camera_name = db.Column(db.String(200), nullable=False)
+    ip_addess = db.Column(db.String(200), nullable=False)
+    port = db.Column(db.Integer, nullable=False)
+
+    # returns a string every time new element is created
+    def __repr__(self):
+        return '<Camera %r>' % self.id
+
+
+# Class for blog Database
+class Blog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    content = db.Column(db.String(300), nullable=False)
+
+    # returns a string every time new element is created
+    def __repr__(self):
+        return '<Post %r>' % self.id
