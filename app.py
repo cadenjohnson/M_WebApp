@@ -29,6 +29,7 @@ migrate = Migrate(app, db)
 # Import and register the blueprints
 from blog.blog_blue import posts
 from user_account.user_blue import account
+from todo.todo_blue import tasks
 
 
 app.register_blueprint(posts, url_prefix = '/blog')
@@ -36,6 +37,8 @@ app.register_blueprint(posts, url_prefix = '/blog')
 
 app.register_blueprint(account, url_prefix = '/account')
 # localhost:5000/account
+
+app.register_blueprint(tasks, url_prefix = '/todo')
 
 
 @app.route('/', methods=['GET'])

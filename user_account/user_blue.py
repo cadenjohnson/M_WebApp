@@ -31,8 +31,9 @@ def load_user(user_id):
 
 
 @account.route('/', methods=['GET'])
+@login_required
 def index():
-    return redirect('/login')
+    return render_template('account.html')
 
 
 
@@ -74,13 +75,6 @@ def signup():
             except:
                 error = 'There was an issue setting up your account. Please contact the Admin.'
     return render_template('signup.html', error=error)
-
-
-
-@account.route('/home', methods=['GET'])
-@login_required
-def home():
-    return render_template('account.html')
 
 
 

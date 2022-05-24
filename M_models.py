@@ -25,4 +25,15 @@ class User(UserMixin, db.Model):
         return '<User %r>' % self.id
 
 
+class Todo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(200), nullable=False)
+    completed = db.Column(db.Integer, default=0)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # returns a string every time new element is created
+    def __repr__(self):
+        return '<Task %r>' % self.id
+
+
 # more models in temp.txt
