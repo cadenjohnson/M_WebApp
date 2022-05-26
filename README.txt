@@ -49,3 +49,16 @@ https://getbootstrap.com/docs/4.0/components/navbar/
 https://github.com/cadenjohnson/M_WebApp
 
 https://www.sachinsf.com/how-to-push-the-code-from-vs-code-to-github/#:~:text=Step%201%3A%20Open%20your%20Github,(optional)%20for%20the%20repository.
+
+
+
+connect signup html to user_blue to use data and commit to database
+then...
+
+do this...
+
+update and connect the database with the models etc
+
+add more models/blueprints
+
+update css to make her pretty

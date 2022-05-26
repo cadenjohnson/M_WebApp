@@ -5,6 +5,8 @@
 
 from app import db
 from datetime import datetime
+from time import time
+import re
 from flask_login import UserMixin
 
 
@@ -34,6 +36,32 @@ class Todo(db.Model):
     # returns a string every time new element is created
     def __repr__(self):
         return '<Task %r>' % self.id
+
+
+class Blog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(140))
+    slug = db.Column(db.String(140), unique=True)
+    body = db.Column(db.Text)
+    date_created = db.Column(db.DateTime, default=datetime.now())
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.generate_slug()
+
+    def slugify(s):
+        pattern = r'[^\w+]'
+        return re.sub(pattern, '-', s)
+
+    def generate_slug(self):
+        if self.title:
+            self.slug = self.slugify(self.title)
+        else:
+            self.slug = str(int(time()))
+
+    def __repr__(self):
+        return '<Post %r>' % self.id
+
 
 
 # more models in temp.txt

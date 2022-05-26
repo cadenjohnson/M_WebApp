@@ -41,9 +41,12 @@ def index():
 def login():
     error=None
     if request.method == 'POST':
-        user = User.query.filter_by(username = request.form['username'])
+        uname = request.form['username']
+        pword = request.form['password']
+        user = User.query.filter_by(username = uname).first()
+        print(user)
         if not user or request.form['password'] != user.password:
-            error = 'Invalid Credentials. Please try again or create a new account.'
+            error = 'Invalid Credentials'
         else:
             login_user(user)
             return redirect('/home')

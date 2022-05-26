@@ -39,6 +39,7 @@ app.register_blueprint(account, url_prefix = '/account')
 # localhost:5000/account
 
 app.register_blueprint(tasks, url_prefix = '/todo')
+# localhost:5000/todo
 
 
 @app.route('/', methods=['GET'])
