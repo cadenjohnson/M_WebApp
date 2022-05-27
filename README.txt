@@ -52,13 +52,11 @@ https://www.sachinsf.com/how-to-push-the-code-from-vs-code-to-github/#:~:text=St
 
 
 
-connect signup html to user_blue to use data and commit to database
-then...
 
-do this...
 
-update and connect the database with the models etc
 
-add more models/blueprints
+update blog to accept posts (make blog post form on new template (new, update, delete))
+
+add more models/blueprints (calendar, weather, then maybe spotify)
 
 update css to make her pretty

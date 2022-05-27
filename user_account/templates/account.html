@@ -6,5 +6,20 @@
 {% endblock %}
 
 {% block body %}
-<h2>Account home page. Welcome home bitch</h2>
+
+    <div style="text-align:center;">
+        <h2>Account home page. Welcome home bitch</h2>
+        <br>
+        {% if error %}
+            <h4 --bs-danger>{{ error }}</h4>
+        {% endif %}
+        <p>Account ID = = = => {{ account.id }}</p>
+        <p>Username = = = = => {{ account.username }}</p>
+        <p>Password = = = = => {{ account.password }}</p>
+        <p>Email Address= = => {{ account.email_address }}</p>
+        <p>Full Name= = = = => {{ account.name }}</p>
+        <br>
+        <a href="/account/delete/{{ account.id }}">Delete Account</a>
+    </div>
+
 {% endblock %}

@@ -46,6 +46,10 @@ app.register_blueprint(tasks, url_prefix = '/todo')
 def index():
     return render_template('index.html')
 
+@app.route('/dashboard', methods=['GET'])
+def dashboard():
+    return render_template('dashboard.html')
+
 # sets location of database (3 slashes is relative path (4=absolute))
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///M_Memory.db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///accounts.db'

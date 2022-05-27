@@ -24,7 +24,7 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="{{ url_for('index') }}">McKracken</a>
+      <a class="navbar-brand" href="{{ url_for('dashboard') }}">McKracken</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -33,15 +33,15 @@
         <ul class="navbar-nav mr-auto">
 
           <li class="nav-item active">
-            <a class="nav-link" href="#">To-Do</a>
+            <a class="nav-link" href="{{ url_for('tasks.index') }}">To-Do</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#">Blog</a>
+            <a class="nav-link" href="{{ url_for('posts.posts_list') }}">Blog</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#">Account</a>
+            <a class="nav-link" href="{{ url_for('account.index') }}">Account</a>
           </li>
 
         </ul>

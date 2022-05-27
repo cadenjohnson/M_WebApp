@@ -18,7 +18,7 @@ def index():
         try:
             db.session.add(new_task)
             db.session.commit()
-            return redirect('/')
+            return redirect('/todo')
         except:
             return 'There was an issue adding your task'
 
@@ -28,7 +28,7 @@ def index():
         tasks = Todo.query.order_by(Todo.date_created).all()
 
         # searches in the "templates" folder, and grabs specified file
-        return render_template('index.html', tasks=tasks)
+        return render_template('tasks.html', tasks=tasks)
 
 
 @tasks.route('/delete/<int:id>')
@@ -38,7 +38,7 @@ def delete(id):
     try:
         db.session.delete(task_to_delete)
         db.session.commit()
-        return redirect('/')
+        return redirect('/todo')
 
     except:
         return 'There was a problem deleting that task'
@@ -53,7 +53,7 @@ def update(id):
 
         try:
             db.session.commit()
-            return redirect('/')
+            return redirect('/todo')
         
         except:
             return 'There was a problem updating that task'
