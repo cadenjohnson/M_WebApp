@@ -1,17 +1,26 @@
-<!--fills in the meat of the page-->
+<!-- Intro welcome page with animations -->
+
 {% extends 'stranger_skeleton.html' %}
 
 {% block head %}
 <title>McKracken</title>
+<link href="{{ url_for('static', filename='css/bubbles.css') }}" rel="stylesheet">
+
 {% endblock %}
 
 {% block body %}
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<h2 style="text-align:center;">Welcome to McKracken</h2>
-<h2 style="text-align:center;">Who the fuck are you?</h2>
+    
+    <div class="e-loadholder">
+        <div class="m-loader">
+            <span class="e-text">Welcome</span>
+        </div>
+    </div>
+
+    <div id="particleCanvas-Blue"><canvas class="particles-js-canvas-el" width="300" height="300" style="width: 100%; height: 100%;"></canvas></div>
+    <div id="particleCanvas-White"><canvas class="particles-js-canvas-el" width="303" height="369" style="width: 100%; height: 100%;"></canvas></div>
+  
+    <script src="{{ url_for('static', filename='javascript/bubbles_support.js') }}"></script>
+    <script id="rendered-js" src="{{ url_for('static', filename='javascript/bubbles.js') }}"></script>
+ 
+
 {% endblock %}

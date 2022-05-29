@@ -50,15 +50,6 @@ def index():
 def dashboard():
     return render_template('dashboard.html')
 
-# sets location of database (3 slashes is relative path (4=absolute))
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///M_Memory.db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///accounts.db'
-#app.config['SQLALCHEMY_BINDS'] = {'Todo' : 'sqlite:///todo.db',
-#                                  'Calendar' : 'sqlite:///calendar.db',
-#                                  'Spotify' : 'sqlite:///spotify.db',
-#                                  'Weather' : 'sqlite:///weather.db',
-#                                  'Cameras' : 'sqlite:///cameras.db',
-#                                  'Blog' : 'sqlite:///blog.db'}
 
 
 

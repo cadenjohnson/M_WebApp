@@ -11,7 +11,7 @@
 
     <!--links the stylesheet (uses a flask tool url_for to grab the file location)-->
     <!-- from Bootstrap *** CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='css/nav_bar.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='/apple-touch-icon.png') }}">
@@ -24,7 +24,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav style="z-index: 999;" class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="{{ url_for('index') }}">McKracken</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -42,14 +42,6 @@
           </li>
 
         </ul>
-
-        <!-- Search bar on top right of nav bar
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        -->
-
       </div>
     </nav>
     {% block body %}{% endblock %}
