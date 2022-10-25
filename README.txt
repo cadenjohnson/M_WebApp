@@ -2,10 +2,10 @@ Start virtual environment via
 --------------------------------
 .\M_env\Scripts\activate
 
-
 run app via
 ------------------------
 python main.py
+
 
 
 
@@ -25,10 +25,18 @@ https://git.heroku.com/mckrakenwebapp.git
 git push heroku master
 ----should be created, but forgot procfile
 
-------to update and commit------ 
+------to update and commit to heroku------ 
 git add .
 git commit -m "added procfile"
 git push heroku master
+
+
+-----------View Heroku Logs---------------
+heroku logs --tail
+-----------View Heroku Dynos--------------
+heroku ps
+
+
 
 
 update database via
