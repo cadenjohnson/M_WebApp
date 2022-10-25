@@ -53,7 +53,7 @@ https://www.sachinsf.com/how-to-push-the-code-from-vs-code-to-github/#:~:text=St
 
 
 
-add link to index animation page "welcome"
+integrate Spotify auth and simple request/display of playlists
 
 update blog to accept posts (make blog post form on new template (new, update, delete))
 
