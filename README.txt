@@ -8,6 +8,29 @@ run app via
 python main.py
 
 
+
+Setting up Heroku hosting on the cloud
+-----------------------------------------
+install heroku cli
+install git (obviously)
+install gunicorn
+freeze requirements
+git init
+git add .
+git commit -m "Innit app"
+heroku login
+heroku create ----------
+https://mckrakenwebapp.herokuapp.com/
+https://git.heroku.com/mckrakenwebapp.git
+git push heroku master
+----should be created, but forgot procfile
+
+------to update and commit------ 
+git add .
+git commit -m "added procfile"
+git push heroku master
+
+
 update database via
 -----------------------
 flask db migrate
