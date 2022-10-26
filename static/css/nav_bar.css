@@ -3279,7 +3279,7 @@ textarea.form-control-lg{
 
 /**********************************************************************************************************/
 .navbar{
-    --bs-navbar-padding-x:0;
+    --bs-navbar-padding-x:0.5rem;
     --bs-navbar-padding-y:0.5rem;
     --bs-navbar-color:rgba(0, 0, 0, 0.55);
     --bs-navbar-hover-color:rgba(0, 0, 0, 0.7);
@@ -3315,7 +3315,8 @@ textarea.form-control-lg{
 .navbar-brand{
     padding-top:var(--bs-navbar-brand-padding-y);
     padding-bottom:var(--bs-navbar-brand-padding-y);
-    margin-right:var(--bs-navbar-brand-margin-end);
+    padding-right:var(--bs-navbar-nav-link-padding-x);
+    padding-left:var(--bs-navbar-nav-link-padding-x);
     font-size:var(--bs-navbar-brand-font-size);
     color:var(--bs-navbar-brand-color);
     text-decoration:none;

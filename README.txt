@@ -1,5 +1,7 @@
+
+
 Start virtual environment via 
---------------------------------
+--------------------------------*******************************************************************************************************************
 .\M_env\Scripts\activate
 
 run app via
@@ -25,7 +27,7 @@ https://git.heroku.com/mckrakenwebapp.git
 git push heroku master
 ----should be created, but forgot procfile
 
-------to update and commit to heroku------ 
+------to update and commit to heroku------ ********************************************************************************************************
 git add .
 git commit -m "added procfile"
 git push heroku master
@@ -53,7 +55,7 @@ Please update me thx
 
 to update and backup to github
 go to source control
---------------------------------
+--------------------------------*******************************************************************************************************************
 commit changes
 pull/push --> Push to...
 choose the right repo
