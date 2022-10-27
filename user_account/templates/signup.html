@@ -2,17 +2,17 @@
 {% extends 'stranger_skeleton.html' %}
 
 {% block head %}
-<title>Blog Posts</title>
+<title>Register</title>
 {% endblock %}
 
 {% block body %}
 <div class="container">
-    {% if error %}
-       <h4 --bs-danger>{{ error }}</h4>
-    {% endif %}
-
     <div class="vh_center">
         <div class="grid">
+            {% if error %}
+                <p style="color:#f82c2c; font-weight:400;" class="text--center">{{ error }}</p>
+            {% endif %}
+
             <form action="/account/signup" method="POST" class="form login">
                 <div class="form__field">
                    <label for="signup__username">

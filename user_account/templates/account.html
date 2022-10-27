@@ -2,13 +2,14 @@
 {% extends 'user_skeleton.html' %}
 
 {% block head %}
-<title>Blog Posts</title>
+<title>My Account</title>
 {% endblock %}
 
 {% block body %}
 
-    <div style="text-align:center;">
-        <h2>Account home page. Welcome home bitch</h2>
+<div class="vh_center">
+    <div class="text--center">
+        <h2 style="color:aliceblue; font-weight:500;">Account home page. Welcome home bitch.</h2>
         <br>
         {% if error %}
             <h4 --bs-danger>{{ error }}</h4>
@@ -21,5 +22,6 @@
         <br>
         <a href="/account/delete/{{ account.id }}">Delete Account</a>
     </div>
+</div>
 
 {% endblock %}

@@ -46,9 +46,7 @@ app.register_blueprint(tasks, url_prefix = '/todo')
 def index():
     return render_template('index.html')
 
-@app.route('/dashboard', methods=['GET'])
-def dashboard():
-    return render_template('dashboard.html')
+
 
 
 

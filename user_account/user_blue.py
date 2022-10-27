@@ -36,6 +36,11 @@ def index():
     return render_template('account.html', account=current_user)
 
 
+@account.route('/dashboard', methods=['GET'])
+@login_required
+def dashboard():
+    return render_template('dashboard.html', account=current_user)
+
 
 @account.route('/login', methods=['GET', 'POST'])
 def login():
@@ -45,10 +50,10 @@ def login():
         pword = request.form['password']
         user = User.query.filter_by(username = uname).first()
         if not user or pword != user.password:
-            error = 'Invalid Credentials'
+            error = 'Nice Try... Invalid'
         else:
             login_user(user)
-            return redirect('/account/')
+            return redirect('/account/dashboard')
     return render_template('login.html', error=error)
 
 
@@ -73,7 +78,7 @@ def signup():
                 db.session.add(new_user)
                 db.session.commit()
                 login_user(new_user)
-                return redirect('/account/')
+                return redirect('/account/dashboard')
             except:
                 error = 'There was an issue setting up your account. Please contact the Admin.'
     return render_template('signup.html', error=error)
@@ -84,11 +89,12 @@ def signup():
 @login_required
 def logout():
     logout_user()
-    return redirect('/account/login')
+    return redirect('/')
 
 
 
 @account.route('/delete/<int:id>')
+@login_required
 def delete(id):
     account_to_delete = User.query.get_or_404(id)
 
