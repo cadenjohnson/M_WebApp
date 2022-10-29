@@ -97,5 +97,3 @@ update css to make her pretty
 add admin portal to see all users, add, remove, etc
 
 add mock billing page
-
-add logout capability
