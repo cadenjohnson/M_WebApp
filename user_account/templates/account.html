@@ -7,6 +7,59 @@
 
 {% block body %}
 
+<div class="flexy" style="width:100%; height: 100%; padding-top: 56px;">
+
+    <!-- Left Side -->
+    <div class="flexyboi" style="height:100%; background-color: #212121; float: left; min-width: 200px;">
+         <p class="text--center" style="padding: 10px 15px;">side space</p>
+         <p class="text--center" style="padding: 10px 15px;">side space</p>
+         <p class="text--center" style="padding: 10px 15px;">side space</p>
+         <p class="text--center" style="padding: 10px 15px;">side space</p>
+         <p class="text--center" style="padding: 10px 15px;">side space</p>
+         <p class="text--center" style="padding: 10px 15px;">side space</p>
+         <p class="text--center" style="padding: 10px 15px;">side space</p>
+         <p class="text--center" style="padding: 10px 15px;">side space</p>
+         <p class="text--center" style="padding: 10px 15px;">side space</p>
+         <p class="text--center" style="padding: 10px 15px;">side space</p>
+    </div>
+
+    <!-- Middle -->
+    <div class="flexiestboi" style="height:90%; margin-left:15px; margin-right:15px; background-color:#2e2e2e; min-width: 400px;">
+        <div class="vh_center" style="position:relative">
+            <div class="text--center">
+                <h2 style="color:aliceblue; font-weight:500;">Account home page. Welcome home bitch.</h2>
+                <br>
+                {% if error %}
+                    <h4 --bs-danger>{{ error }}</h4>
+                {% endif %}
+                <p>Account ID = = = => {{ account.id }}</p>
+                <p>Username = = = = => {{ account.username }}</p>
+                <p>Password = = = = => {{ account.password }}</p>
+                <p>Email Address= = => {{ account.email_address }}</p>
+                <p>Full Name= = = = => {{ account.name }}</p>
+                <br>
+                <a href="/account/delete/{{ account.id }}">Delete Account</a>
+            </div>
+        </div>
+    
+    </div>
+
+    <!-- Right Side -->
+    <div class="flexyboi" style="height:100%; background-color: #212121; float: right; min-width: 200px;">
+        <p class="text--center" style="padding: 10px 15px;">side space</p>
+        <p class="text--center" style="padding: 10px 15px;">side space</p>
+        <p class="text--center" style="padding: 10px 15px;">side space</p>
+        <p class="text--center" style="padding: 10px 15px;">side space</p>
+        <p class="text--center" style="padding: 10px 15px;">side space</p>
+        <p class="text--center" style="padding: 10px 15px;">side space</p>
+        <p class="text--center" style="padding: 10px 15px;">side space</p>
+        <p class="text--center" style="padding: 10px 15px;">side space</p>
+        <p class="text--center" style="padding: 10px 15px;">side space</p>
+        <p class="text--center" style="padding: 10px 15px;">side space</p>
+   </div>
+</div>
+
+<!--
 <div class="vh_center">
     <div class="text--center">
         <h2 style="color:aliceblue; font-weight:500;">Account home page. Welcome home bitch.</h2>
@@ -23,5 +76,6 @@
         <a href="/account/delete/{{ account.id }}">Delete Account</a>
     </div>
 </div>
+-->
 
 {% endblock %}
