@@ -1,0 +1,55 @@
+<!--provides a skeleton that can be filled in where there are blocks-->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--links the stylesheet (uses a flask tool url_for to grab the file location)-->
+    <!-- from Bootstrap *** CSS only -->
+    <link href="{{ url_for('static', filename='css/nav_bar.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+        
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='/site.webmanifest') }}">
+
+
+    {% block head %}{% endblock %}
+  </head>
+
+  <body>
+    <nav style="z-index: 999;" class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="{{ url_for('admin.index') }}">Admin Daddy</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('admin.screensaver') }}">Screensaver</a>
+          </li>
+
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('admin.logout') }}">Logout</a>
+          </li>
+
+        </ul>
+
+      </div>
+    </nav>
+    {% block body %}{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+
+</html>

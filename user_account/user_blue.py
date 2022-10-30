@@ -36,7 +36,7 @@ def delete(id):
     try:
         db.session.delete(account_to_delete)
         db.session.commit()
-        return redirect('/account/login')
+        return redirect('/login')
 
     except:
         return render_template('account.html', error='There was a problem deleting your account')

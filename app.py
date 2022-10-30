@@ -25,10 +25,13 @@ migrate = Migrate(app, db)
 
 
 # Import and register the blueprints
+from admin.admin_blue import admin
 from blog.blog_blue import posts
 from user_account.user_blue import account
 from todo.todo_blue import tasks
 
+app.register_blueprint(admin, url_prefix = '/admin')
+# localhost:5000/admin
 
 app.register_blueprint(posts, url_prefix = '/blog')
 # localhost:5000/blog
@@ -70,6 +73,8 @@ def login():
             error = 'Nice Try... Invalid'
         else:
             login_user(user)
+            if uname=='admin' and pword==user.password:
+                return redirect('/admin')
             return redirect('/dashboard')
     return render_template('login.html', error=error)
 
