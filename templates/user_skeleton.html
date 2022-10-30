@@ -25,7 +25,7 @@
 
   <body>
     <nav style="z-index: 999; backdrop-filter: blur(10px);" class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="{{ url_for('account.dashboard') }}">McKracken</a>
+      <a class="navbar-brand" href="{{ url_for('dashboard') }}">McKracken</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -47,7 +47,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{{ url_for('account.index') }}">My Account</a>
-              <a class="dropdown-item" href="#">Billing</a>
+              <a class="dropdown-item" href="{{ url_for('errorpage') }}">Billing</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="/account/logout">Log Out</a>
             </div>

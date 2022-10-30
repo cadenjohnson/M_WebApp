@@ -7,7 +7,7 @@
 
 {% block body %}
 <div class="container">
-    <div class="vh_center" style="top:25%; color:aliceblue;">
+    <div class="vh_center flexy" style="top:30%; color:aliceblue; flex-direction:column;">
         <h1 class="text--center">Task Master</h1>
 
         <!-- input box and button for task inputs -->
@@ -22,27 +22,29 @@
         <h4 class="text--center">There are no tasks. Create one above!</h4>
 
         {% else %}
-        <div class="text--center">
-            <table>
-                <!-- headers for the columns -->
-                <tr>
-                    <th>Task</th>
-                    <th>Added</th>
-                    <th>Actions</th>
-                </tr>
-
-                <!-- provides loop for displaying rows with tasks previously entered -->
-                {% for task in tasks %}
-                    <tr class="text--center">
-                        <td>{{ task.content }}</td>
-                        <td>{{ task.date_created.date() }}</td>
-                        <td>
-                            <a href="/todo/delete/{{ task.id }}">Delete</a>
-                            <br>
-                            <a href="/todo/update/{{ task.id }}">Update</a>
-                        </td>
+        <div style="position:relative; width:75%;">
+            <table style="position:absolute; width:100%;">
+                <tbody class="flexy" style="flex-direction:column;">
+                    <!-- headers for the columns -->
+                    <tr class="flexy" style="justify-content:center; max-width: 75%;">
+                        <th class="flexiestboi">Task</th>
+                        <th class="flexierboi">Added</th>
+                        <th class="flexyboi">Actions</th>
                     </tr>
-                {% endfor %}
+
+                    <!-- provides loop for displaying rows with tasks previously entered -->
+                    {% for task in tasks %}
+                        <tr class="flexy" style="justify-content:center; max-width: 75%;">
+                            <td class="flexiestboi" style="word-wrap:break-word; max-width: 400px;">{{ task.content }}</td>
+                            <td class="flexierboi">{{ task.date_created.date() }}</td>
+                            <td style="float:right;">
+                                <a href="/todo/delete/{{ task.id }}">Delete</a>
+                                <br>
+                                <a href="/todo/update/{{ task.id }}">Update</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
         {% endif %}

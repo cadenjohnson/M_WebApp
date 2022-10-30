@@ -44,8 +44,25 @@ body {
     width: 100%;
 }
 
+/* modules/text.css */
+  
+p {
+  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
+  margin-top: 24px;
+  margin-top: 1.1rem;
+  color:#ce5200;
+}
+
+.text--center {
+  text-align: center;
+  padding: 15px;
+}
+
+/* flex box helpers */
 .flexy {
   display:flex;
+  flex-direction:row;
 }
 
 .flexyboi {
@@ -61,6 +78,11 @@ body {
 }
 
   
+
+
+
+
+
   /* CSS for login format */
 
   .align {
@@ -234,17 +256,4 @@ body {
     background-color: #9c1111;
   }
   
-  /* modules/text.css */
   
-  p {
-    margin-bottom: 24px;
-    margin-bottom: 1.5rem;
-    margin-top: 24px;
-    margin-top: 1.1rem;
-    color:#faa13c;
-  }
-  
-  .text--center {
-    text-align: center;
-    padding: 15px;
-  }

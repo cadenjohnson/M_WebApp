@@ -2,7 +2,7 @@
 {% extends 'user_skeleton.html' %}
 
 {% block head %}
-<title>My Account</title>
+<title>Admin Dashboard</title>
 {% endblock %}
 
 {% block body %}
@@ -27,19 +27,7 @@
     <div class="flexiestboi" style="height:90%; margin-left:15px; margin-right:15px; background-color:#2e2e2e; min-width: 400px;">
         <div class="vh_center" style="position:relative">
             <div class="text--center">
-                <h2 style="color:aliceblue; font-weight:500;">Account home page. Welcome home {{ account.name }}.</h2>
-                <br>
-                {% if error %}
-                    <h4 --bs-danger>{{ error }}</h4>
-                {% endif %}
-                <p>Account ID = = = => {{ account.id }}</p>
-                <p>Full Name= = = = => {{ account.name }}</p>
-                <p>Username = = = = => {{ account.username }}</p>
-                <p>Password = = = = => {{ account.password }}</p>
-                <p>Email Address= = => {{ account.email_address }}</p>
-                <p>Account Created= => {{ account.date_created }}</p>
-                <br>
-                <a href="/account/delete/{{ account.id }}">Delete Account</a>
+                <h2 style="color:aliceblue; font-weight:500;">Admin Dashboard</h2>
             </div>
         </div>
     

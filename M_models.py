@@ -19,8 +19,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
     #todo = db.relationship('Todo', backref='user', lazy=True)
-    # used to create the one-to-many relationships... seems like a lot of unnecessary work rn
-
+    # used to create the one-to-many relationships... seems like a lot of unnecessary work rn#############################################################
 
     # returns a string every time new element is created
     def __repr__(self):
@@ -29,8 +28,9 @@ class User(UserMixin, db.Model):
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
     content = db.Column(db.String(200), nullable=False)
-    completed = db.Column(db.Integer, default=0)
+    #completed = db.Column(db.Integer, default=0)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     # returns a string every time new element is created

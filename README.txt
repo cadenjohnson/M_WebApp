@@ -92,8 +92,21 @@ update blog to accept posts (make blog post form on new template (new, update, d
 
 add more models/blueprints (calendar, weather, then maybe spotify)
 
-update css to make her pretty
+implement flask security
+
+add remember me to login
 
 add admin portal to see all users, add, remove, etc
 
 add mock billing page
+
+update DB tables to have many to one / many to many relationships
+
+Design key goals
+-functionalities/capabilities
+-what data i want available
+-how to summarize data for dashboard
+
+
+VULNERABILITIES
+passwords in plain text
