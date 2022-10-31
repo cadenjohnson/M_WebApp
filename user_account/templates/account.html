@@ -37,9 +37,15 @@
                 <p>Username = = = = => {{ account.username }}</p>
                 <p>Password = = = = => {{ account.password }}</p>
                 <p>Email Address= = => {{ account.email_address }}</p>
-                <p>Account Created= => {{ account.date_created }}</p>
+                <p>Account Last Updated= => {{ account.date_created }}</p>
                 <br>
-                <a href="/account/delete/{{ account.id }}">Delete Account</a>
+                <div>
+                    <a style="margin-bottom:0.5rem; font-size:1.2rem;" href="/account/updateaccount">Edit Account</a>
+                </div>
+                <div>
+                    <a style="margin-bottom:0.5rem; font-size:1.2rem;" href="/account/delete/{{ account.id }}">Delete Account</a>
+                </div>
+                
             </div>
         </div>
     

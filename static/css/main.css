@@ -159,7 +159,7 @@ p {
   
   a:focus,
   a:hover {
-    text-decoration: none;
+    color:rgb(172, 0, 0);
   }
   
   /* modules/form.css */

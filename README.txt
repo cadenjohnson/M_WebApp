@@ -97,6 +97,11 @@ implement flask security
 add remember me to login
 
 add admin portal to see all users, add, remove, etc
+    view number of accounts
+        view all accounts listed username - name - email
+    delete accounts
+    update accounts
+    view number of tasks for each account
 
 add mock billing page
 

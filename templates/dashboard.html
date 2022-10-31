@@ -26,6 +26,9 @@
      <!-- Right Side -->
      <div class="flexiestboi" style="height:90%; margin-left: 20px; margin-right:25px; background-color:#383838; float: right; min-width: 400px;">
           <div class="vh_center" style="width:auto; position: relative;">
+               {% if error %}
+                    <p style="color:#f82c2c; font-weight:400;" class="text--center">{{ error }}</p>
+               {% endif %}
                <h2 class="text--center" style="color:aliceblue; font-size:large;">This is the main dashboard to display blog, todo list, weather, etc all in one place</h2>
           </div>
      
