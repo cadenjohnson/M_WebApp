@@ -29,6 +29,7 @@ from admin.admin_blue import admin
 from blog.blog_blue import posts
 from user_account.user_blue import account
 from todo.todo_blue import tasks
+from spotify.spotify_blue import spotify
 
 app.register_blueprint(admin, url_prefix = '/admin')
 # localhost:5000/admin
@@ -40,6 +41,9 @@ app.register_blueprint(account, url_prefix = '/account')
 # localhost:5000/account
 
 app.register_blueprint(tasks, url_prefix = '/todo')
+# localhost:5000/todo
+
+app.register_blueprint(spotify, url_prefix = '/spotify')
 # localhost:5000/todo
 
 

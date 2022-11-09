@@ -25,6 +25,9 @@
     <div class="container">
         <div class="vh_center">
             <div class="text--center" style="color:aliceblue">
+                {% if error %}
+                  <p style="color:#f82c2c; font-weight:400;" class="text--center">{{ error }}</p>
+                {% endif %}
                 <h1>ope... sorry...</h2>
                 <h1>Theres been an error.</h2>
             </div>

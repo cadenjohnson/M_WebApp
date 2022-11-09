@@ -63,16 +63,17 @@ class Blog(db.Model):
         return '<Post %r>' % self.id
 
 
-class SpotifyToken(db.Model):
+class Spotifym(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(40), unique=True)
-    date_created = db.Column(db.DateTime, default=datetime.now())
-    refresh_token = db.Column(db.String(150))
-    access_token = db.Column(db.String(150))
-    expires_in = db.Column(db.DateTime)
-    token_type = db.Column(db.String(50))
+    user_id = db.Column(db.Integer, nullable=False)
+    refresh_token = db.Column(db.String(500))
+    access_token = db.Column(db.String(500))
+    expires = db.Column(db.DateTime)
+    is_expired = db.Column(db.Boolean)
+    scope = db.Column(db.String(300))
+    state = db.Column(db.String(8))
 
     def __repr__(self):
-        return '<Token %r>' % self.id
+        return '<SpotAcct %r>' % self.id
 
 # more models in temp.txt
