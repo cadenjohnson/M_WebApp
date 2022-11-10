@@ -50,8 +50,6 @@ def index():
                 return render_template('spotify_dash.html', error=('Logged In. Access Token= '+spot_account.access_token))
         
         # assume they dont have an account registered yet
-        # display button with link to endpoint that begins stage 1 to gain authorization
-        # button will send POST request which is routed below
         return render_template('spotify_dash.html')
 
     # for POST requests
@@ -69,13 +67,6 @@ def index():
             return render_template('errorpage.html', error='4')
 
         # basically stage 1 (part 1)
-        #response = requests.get("https://accounts.spotify.com/authorize", params={
-        #    'client_id': AUTH.CLIENT_ID,
-        #    'response_type': 'code',
-        #    'redirect_url': AUTH.REDIRECT_URI,
-        #    'state': state,
-        #    'scope': AUTH.SCOPE
-        #})
         the_url = "https://accounts.spotify.com/authorize?scope="+str(AUTH.SCOPE)+"&redirect_uri="+str(AUTH.REDIRECT_URI)+"&response_type=code&client_id="+str(AUTH.CLIENT_ID)+"&state="+str(state) 
 
         return redirect(the_url)
@@ -122,6 +113,6 @@ def spotauth():
     except:
         return render_template('errorpage.html', error='7')
 
-    return render_template('spotify_dash.html', error='Logged In!')
+    return render_template('spotify_dash.html', error=('Logged In. Access Token= '+spot_account.access_token))
 
 

@@ -24,13 +24,10 @@
 
      <!-- Right Side -->
     <div class="flexiestboi" style="height:90%; margin-top: 20px; margin-left: 20px; margin-right:25px; background-color:#383838; float: right; min-width: 400px;">
-            <div class="vh_center flexy" style="flex-direction: column; width:auto; position: relative;">
-                {% if error %}
-                    <p style="color:#f82c2c; font-weight:400;" class="text--center">{{ error }}</p>
-                {% endif %}
-                <h1 class="text--center" style="color:aliceblue;">No Spotify Account Registered</h1>
-                <h2 class="text--center" style="color:aliceblue; font-size:larger;">In order to use Spotify on this app, register below...</h2>
-                
+        <div class="vh_center flexy" style="flex-direction: column; width:auto; position: relative;">
+            {% if error %}
+                <p style="color:#f82c2c; font-weight:400;" class="text--center">{{ error }}</p>
+            {% else %}
                 <div style="height:56px; margin: 15px 0px;">
                     <form action="/spotify" method="POST" class="form login" style="position:absolute; left: 50%; transform: translate(-50%); width:30%;">
                         <div class="form__field">
@@ -38,9 +35,9 @@
                         </div>
                     </form>
                 </div>
-                
-            </div>
-     
+            {% endif %}
+                            
+        </div>
     </div>
 </div>
 

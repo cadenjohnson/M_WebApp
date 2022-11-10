@@ -97,9 +97,11 @@ class CusAuth:
             'Content-Type': 'application/x-www-form-urlencoded'
         })
         
+        print(token_response_data)
         if validate(token_response_data):
             token_data = token_response_data.json()
-            if token_data['refresh_token']:
+            print(token_data)
+            if 'refresh_token' in token_data:
                 self.ref_token = token_data['refresh_token']
             self.acc_token = token_data['access_token']
             self.scope = token_data['scope']
