@@ -14,6 +14,8 @@ import requests, string, random, base64, datetime
 
 # import necessary objects
 from spotify.credentials import CLIENT_ID, SECRET_ID, REDIRECT_URI, SCOPE
+global client_creds_b64 
+client_creds_b64 = base64.b64encode(f"{CLIENT_ID}:{SECRET_ID}".encode())
 
 
 def get_state():
@@ -37,85 +39,60 @@ def validate(response):
     return response.status_code in range(200, 299)
 
 
-# Custom Auth class to carry out Authorization Code Flow
-class CusAuth:
-    def __init__(self, client_id=CLIENT_ID, client_secret=SECRET_ID, redirect_uri=REDIRECT_URI, scope=SCOPE):
-        self.client_id = client_id
-        # example of why python has limited inheritance security... can still be
-        # accessed, although more difficult (auth._CusAuth__client_secret)
-        #self.__clientsecret = client_secret
-        self.client_creds_b64 = base64.b64encode(f"{client_id}:{client_secret}".encode())
-        self.redirect_uri = redirect_uri
-        self.scope = scope
-        self.state = None
-        self.acc_token = None
-        self.ref_token = None
-        self.expires = None
-        self.valid_request = None
-        self.token_url="https://accounts.spotify.com/api/token"
-        self.auth_url="https://accounts.spotify.com/authorize"
 
 
-    # stage 2 request to api for access tokens
-    def req_acc_n_ref_tokens(self, code):
-        print('Its an error with stage 2')
-        token_response_data = requests.post(self.token_url, 
-        data={
-            'grant_type': "authorization_code",
-            'code': code,
-            'redirect_uri': self.redirect_uri
-        }, 
-        headers={
-            'Authorization': f"Basic {self.client_creds_b64.decode()}",
-            'Content-Type': 'application/x-www-form-urlencoded'
-        })
-        print(token_response_data)
+# stage 2 request to api for access tokens
+def get_tokens(code):
+    token_response_data = requests.post("https://accounts.spotify.com/api/token", 
+    data={
+        'grant_type': "authorization_code",
+        'code': code,
+        'redirect_uri': REDIRECT_URI
+    }, 
+    headers={
+        'Authorization': f"Basic {client_creds_b64.decode()}",
+        'Content-Type': 'application/x-www-form-urlencoded'
+    })
 
-        if validate(token_response_data):
-            token_data = token_response_data.json()
-            self.access_token = token_data['access_token']
-            self.ref_token = token_data['refresh_token']
-            self.scope = token_data['scope']
-            expires_in = token_data['expires_in']
-            self.expires = create_expires(expires_in)
+    if validate(token_response_data):
+        token_data = token_response_data.json()
+        acc_token = token_data['access_token']
+        ref_token = token_data['refresh_token']
+        scope = token_data['scope']
+        expires_in = token_data['expires_in']
+        expires = create_expires(expires_in)
 
-            print(self.ref_token, self.acc_token, self.expires, self.scope)
-            return self.ref_token, self.acc_token, self.expires, self.scope
-        print('error 3')
-        return False
+        return ref_token, acc_token, expires, scope
+    return False
 
 
-    # stage 3 request for refresh token
-    def refresh_token(self, ref_token):
-        token_response_data = requests.post(self.token_url, 
-        data={
-            'grant_type': "refresh_token",
-            'refresh_token': ref_token,
-        }, 
-        headers={
-            'Authorization': f"Basic {self.client_creds_b64.decode()}",
-            'Content-Type': 'application/x-www-form-urlencoded'
-        })
-        
-        print(token_response_data)
-        if validate(token_response_data):
-            token_data = token_response_data.json()
-            print(token_data)
-            if 'refresh_token' in token_data:
-                self.ref_token = token_data['refresh_token']
-            self.acc_token = token_data['access_token']
-            self.scope = token_data['scope']
-            expires_in = token_data['expires_in']
-            self.expires = create_expires(expires_in)
-
-            return self.ref_token, self.acc_token, self.expires, self.scope
-        print('error 4')
-        return False
 
 
-# stage 3
-def Reinitialize_Spotify(r_token):
-    auth_object = CusAuth(CLIENT_ID, SECRET_ID, REDIRECT_URI, SCOPE)
-    rdata = auth_object.refresh_token(r_token)
-    return rdata
+# stage 3 request for refresh token
+def use_refresh_token(ref_token):
+    token_response_data = requests.post("https://accounts.spotify.com/api/token", 
+    data={
+        'grant_type': "refresh_token",
+        'refresh_token': ref_token,
+    }, 
+    headers={
+        'Authorization': f"Basic {client_creds_b64.decode()}",
+        'Content-Type': 'application/x-www-form-urlencoded'
+    })
+    
+    if validate(token_response_data):
+        token_data = token_response_data.json()
+        if 'refresh_token' in token_data:
+            if token_data['refresh_token'] and token_data['refresh_token'] != None:
+                ref_token = token_data['refresh_token']
+        acc_token = token_data['access_token']
+        scope = token_data['scope']
+        expires_in = token_data['expires_in']
+        expires = create_expires(expires_in)
+
+        return ref_token, acc_token, expires, scope
+
+    return False
+
+
 

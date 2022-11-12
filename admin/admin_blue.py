@@ -32,4 +32,9 @@ def screensaver():
     return render_template('screensaver.html')
 
 
+# route for portfolio site
+@admin.route('/portfolio')
+def portfolio():
+    return render_template('portfolio.html')
+
 

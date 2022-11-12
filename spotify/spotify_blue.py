@@ -7,9 +7,39 @@ from app import db, current_user
 from M_models import Spotifym
 from flask_login import login_required
 import spotify.M_S_authenticate as AUTH
+import spotipy
+import spotify.M_S_operate as Operate
 
 
 spotify = Blueprint('spotify', __name__, template_folder = 'templates')
+
+
+def indexauth(spot_account):
+    # check whether the access token is expired
+    if AUTH.check_expiration(spot_account.expires) or spot_account.access_token == None:
+    # if it is, carry out stage 3 to obtain access token
+        rdata = AUTH.use_refresh_token(spot_account.refresh_token)
+
+        if not rdata:
+            return False
+        else:
+            ref_token, acc_token, expires, scope = rdata
+            print(ref_token,' | ',acc_token,' | ',expires,' | ',scope)
+
+        # update database with new data
+        if ref_token != None:
+            spot_account.refresh_token = ref_token
+        spot_account.access_token = acc_token
+        spot_account.expires = expires
+        spot_account.scope = scope
+        try:
+            db.session.commit()
+        except:
+            return False
+
+        return True
+    return True
+
 
 
 # index page
@@ -17,37 +47,18 @@ spotify = Blueprint('spotify', __name__, template_folder = 'templates')
 @login_required
 def index():
     if request.method == 'GET':
-        # check if user has a refresh token associated with their account
+        # check if valid account registered with McKraken
         spot_account = Spotifym.query.filter_by(user_id=current_user.id).first()
-
-        print(spot_account)
         if spot_account and spot_account.user_id == current_user.id:
-            # if they do, check whether the access token is expired
-            if AUTH.check_expiration(spot_account.expires):
-            # if it is, carry out stage 3 to obtain access token
-                rdata = AUTH.Reinitialize_Spotify(spot_account.refresh_token)
+            # assist w checks and updates
+            success = indexauth(spot_account)
+            if success:
+                # test case - display the playlists
+                playlists = Operate.get_playlists(spot_account.access_token)
+                return render_template('spotify_dash.html', playlists=playlists, error=('Logged In. Access Token= '+str(spot_account.access_token)))
 
-                if not rdata:
-                    return render_template('errorpage.html', error='1')
-                else:
-                    ref_token, acc_token, expires, scope = rdata
-
-                # update database with new data
-                spot_account.refresh_token = ref_token
-                spot_account.access_token = acc_token
-                spot_account.expires = expires
-                spot_account.scope = scope
-                try:
-                    db.session.commit()
-                except:
-                    return render_template('errorpage.html', error='2')
-
-                # then display dashboard
-                # using new access token
-                return render_template('spotify_dash.html', error=('Logged In. Access Token= '+spot_account.access_token))
             else:
-                # using old access token
-                return render_template('spotify_dash.html', error=('Logged In. Access Token= '+spot_account.access_token))
+                return render_template('errorpage.html', error='Error with GET request for index')
         
         # assume they dont have an account registered yet
         return render_template('spotify_dash.html')
@@ -71,10 +82,9 @@ def index():
 
         return redirect(the_url)
     else:
-        return render_template('errorpage.html', error='6')
+        return render_template('errorpage.html', error='Error with POST request for index')
 
 
-# https://127.0.0.1:5000/spotify/spotauth?code=AQCm8EdJoPJFVySAeTE5kLUTNyaRNM9L4wz70ZV3TM5qzUBDGhofmO1TWN5AgK7DRI58J4XJqkMG81Eieq5jsCtJi1vY44EtNGsSIHNJtspCLrXRQPgcFxwXilUzPr9BRDbfjEspamMsqejEbjUoRNm95S_lOQ1VTopGg0oTCXZLCsisz1hH6CEdfWgS0lW5WxqJrx4TLICJquFfVx3rqyiBh_pETVPb7bbuFKY0qEiOGz-b7RMoc7-lyDNwfc98_UvLLE6jr4oUm996txND0PD185TxsVOOip-1ihOTG-UgdOslY--QeiwcqNzy2D8dxmZWMyIfGkMwjr9E3AKyQqxFY7E92F7Pew&state=None
 
 # stage 1 (part 2) used to obtain code and state
 @spotify.route('/spotauth')
@@ -92,11 +102,14 @@ def spotauth():
 
             # validate state and move on to stage 2
             if spot_account.state == params['state']:
-                Auth_Object = AUTH.CusAuth()
-                data = Auth_Object.req_acc_n_ref_tokens(code)
+                data = AUTH.get_tokens(code)
 
-                # update database with tokens etc
                 ref_token, acc_token, expires, scope = data
+                # update database with tokens etc
+                if acc_token == None:
+                    data = AUTH.use_refresh_token(ref_token)
+                ref_token, acc_token, expires, scope = data
+
                 spot_account.refresh_token = ref_token
                 spot_account.access_token = acc_token
                 spot_account.expires = expires
@@ -113,6 +126,21 @@ def spotauth():
     except:
         return render_template('errorpage.html', error='7')
 
-    return render_template('spotify_dash.html', error=('Logged In. Access Token= '+spot_account.access_token))
+    return redirect('/spotify')
+
+
+
+@spotify.route('/delete')
+@login_required
+def delete():
+    account_to_delete = Spotifym.query.filter_by(user_id=current_user.id).first()
+    if account_to_delete:
+        try:
+            db.session.delete(account_to_delete)
+            db.session.commit()
+            return redirect('/spotify')
+
+        except:
+            return render_template('errorpage.html', error='Error while attempting to delete account')
 
 

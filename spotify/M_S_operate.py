@@ -6,9 +6,11 @@
 import json, requests
 
 # just for references...
-import spotipy
-sp = spotipy.Spotify(auth=acc_token)
+#import spotipy
+#sp = spotipy.Spotify(auth=acc_token)
 
+global prefix
+prefix = "https://api.spotify.com/v1"
 
 def prep_request(url, payload, params, acc_token):
     prefix="https://api.spotify.com/v1/"
@@ -26,7 +28,6 @@ def prep_request(url, payload, params, acc_token):
         if payload:
             args["data"] = json.dumps(payload)
 
-    session = requests.Session()
     try:
         if data:
             response = requests.get(url=url, data=data, headers=headers)
@@ -50,8 +51,23 @@ def shuffle_toggle(acc_token):
 def get_devices(acc_token):
     pass
 
+
 def get_playlists(acc_token):
-    pass
+    url = prefix+"/me/playlists"
+    headers={
+        "Authorization": f"Bearer {acc_token}",
+        "Content-Type": "application/json"
+        }
+
+    playlists = (requests.get(url=url, headers=headers)).json()
+    play_array = []
+
+    for i, playlist in enumerate(playlists['items']):
+        temp = ("%4d |  %s" % (i + 1 + playlists['offset'], playlist['name']))
+        play_array.append(temp)
+
+    return play_array
+
 
 def get_currently_playing(acc_token):
     pass
