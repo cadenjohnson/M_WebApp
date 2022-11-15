@@ -1,0 +1,45 @@
+<!-- verifies whether user wants to go forward with their choice -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!--links the stylesheet (uses a flask tool url_for to grab the file location)-->
+        <!-- from Bootstrap *** CSS only -->
+        <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+            
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='/apple-touch-icon.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='/favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/favicon-16x16.png') }}">
+        <link rel="manifest" href="{{ url_for('static', filename='/site.webmanifest') }}">
+
+        <title>Verification</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="vh_center">
+                <div class="text--center" style="color:aliceblue">
+                    {% if message and route %}
+                        <h1>{{ message }}</h1>
+                        <div style="height:56px; margin: 15px 0px;">
+                            <form action='{{ route }}' method="POST" class="form login" style="position:absolute; left: 50%; transform: translate(-50%); width:30%;">
+                                <div class="form__field">
+                                    <input type="submit" value="I'm Sure">
+                                </div>
+                            </form>
+                        </div>
+                    {% else %}
+                        <h1>ope... sorry...</h2>
+                        <h1>Theres been an error.</h2>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -55,7 +55,8 @@ def index():
             if success:
                 # test case - display the playlists
                 playlists = Operate.get_playlists(spot_account.access_token)
-                return render_template('spotify_dash.html', playlists=playlists, error=('Logged In. Access Token= '+str(spot_account.access_token)))
+                devices = Operate.get_devices(spot_account.access_token)
+                return render_template('spotify_dash.html', playlists=playlists, devices=devices, error=('Logged In. Access Token= '+str(spot_account.access_token)))
 
             else:
                 return render_template('errorpage.html', error='Error with GET request for index')
@@ -130,17 +131,21 @@ def spotauth():
 
 
 
-@spotify.route('/delete')
+@spotify.route('/delete', methods=['GET','POST'])
 @login_required
 def delete():
-    account_to_delete = Spotifym.query.filter_by(user_id=current_user.id).first()
-    if account_to_delete:
-        try:
-            db.session.delete(account_to_delete)
-            db.session.commit()
-            return redirect('/spotify')
+    if request.method == 'GET':
+        return render_template('verify_choice.html', route='/spotify/delete', message='Are you sure you want to un-Register your Spotify account?')
+    elif request.method == 'POST':
+        account_to_delete = Spotifym.query.filter_by(user_id=current_user.id).first()
+        if account_to_delete:
+            try:
+                db.session.delete(account_to_delete)
+                db.session.commit()
+                return redirect('/spotify')
 
-        except:
-            return render_template('errorpage.html', error='Error while attempting to delete account')
-
+            except:
+                return render_template('errorpage.html', error='Error while attempting to delete account')
+    else:
+        return render_template('errorpage.html', error='Error. Incorect request method')
 

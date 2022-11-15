@@ -77,9 +77,19 @@ p {
   flex-grow: 3;
 }
 
-  
 
+.music-icons{
+  fill:white;
+  width: 50px;
+  height: 50px;
+}
 
+.music-icons:focus,
+.music-icons:hover{
+  fill:#0a7500;
+  width: 54px;
+  height: 54px;
+}
 
 
 

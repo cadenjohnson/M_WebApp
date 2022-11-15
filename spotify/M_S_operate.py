@@ -40,6 +40,9 @@ def prep_request(url, payload, params, acc_token):
 
 
 def play(acc_token):
+    # create route that responds sends api post request
+    # then responds with only the current playing song 
+    # as the data to refresh on page
     pass
 
 def pause(acc_token):
@@ -49,7 +52,20 @@ def shuffle_toggle(acc_token):
     pass
 
 def get_devices(acc_token):
-    pass
+    url = prefix+"/me/player/devices"
+    headers={
+        "Authorization": f"Bearer {acc_token}",
+        "Content-Type": "application/json"
+        }
+
+    devices = (requests.get(url=url, headers=headers)).json()
+    device_array = []
+
+    for i, device in enumerate(devices['devices']):
+        temp = ("%4d |  %s" % (i + 1, device['name']))
+        device_array.append(temp)
+
+    return device_array
 
 
 def get_playlists(acc_token):

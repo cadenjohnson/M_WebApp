@@ -10,8 +10,8 @@
 
     <!-- Left Side -->
     <div class="flexyboi" style="height:100%; margin-top: 20px; margin-right: 10px; background-color: #212121; float: left; max-width: 300px; min-width: 250px;">
-        <p class="text--center" style="font-size: larger; margin:20px 10px 10px 10px; padding: 10px 15px;">Playlists</p>
         {% if playlists %}
+        <p class="text--center" style="font-size: larger; margin:20px 10px 10px 10px; padding: 10px 15px;">Playlists</p>
             {% for playlist in playlists %}
             <p class="text--center" style="font-size: small; color:rgb(199, 199, 199); padding: 5px 15px; margin:5px 0px;">{{ playlist }}</p>
             {% endfor %}
@@ -22,9 +22,65 @@
     <div class="flexiestboi" style="height:90%; margin-top: 20px; margin-left: 20px; margin-right:25px; background-color:#383838; float: right; min-width: 400px;">
         <div class="vh_center flexy" style="flex-direction: column; width:auto; position: relative;">
             {% if error %}
+
+<!--
+                <div style="width:100%; height:70px;">
+                    <form class="form login flexy" style="justify-content: center; position: absolute; margin: 10px; left: 50%; transform: translate(-50%); height: 50px; width: 200px;"">
+                        <div class="form__field" style="margin:0;">
+                            <input type="submit" value="<<">
+                        </div>
+                        <div class="form__field" style="margin:0 5px 0 5px;">
+                            <input type="submit" value="play/pause">
+                        </div>
+                        <div class="form__field" style="margin:0;">
+                            <input type="submit" value=">>">
+                        </div>
+                    </form>
+                </div>
+-->
+
+                <div class="text--center">
+                    <h1 style="color:white; margin:0;" id="current-song">Nothing playing</h1>
+                </div>
+
+                <div style="width:100%; height:70px;">
+                        <form id="music-player-form" class="flexy" style="justify-content: center; position: absolute; margin: 10px; left: 50%; transform: translate(-50%); flex-direction: row; height: 60px; width: 172px;">
+
+                            <button style="background-color: transparent; border-color: transparent;" type="button" id="previous-song">
+                                <svg xmlns="http://www.w3.org/2000/svg" class=" music-icons bi bi-rewind-circle" viewBox="0 0 16 16">
+                                    <path d="M7.729 5.055a.5.5 0 0 0-.52.038l-3.5 2.5a.5.5 0 0 0 0 .814l3.5 2.5A.5.5 0 0 0 8 10.5V8.614l3.21 2.293A.5.5 0 0 0 12 10.5v-5a.5.5 0 0 0-.79-.407L8 7.386V5.5a.5.5 0 0 0-.271-.445Z"/>
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Z"/>
+                                </svg>
+                            </button>
+
+                            <button style="background-color: transparent; border-color: transparent;" type="button" id="play">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="margin: 0 10px 0 10px" class="music-icons bi bi-play-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
+                                </svg>
+                            </button>
+
+                            <button style="background-color: transparent; border-color: transparent;" type="button" id="next-song">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="music-icons bi bi-fast-forward-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14Zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16Z"/>
+                                    <path d="M4.271 5.055a.5.5 0 0 1 .52.038L8 7.386V5.5a.5.5 0 0 1 .79-.407l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 8 10.5V8.614l-3.21 2.293A.5.5 0 0 1 4 10.5v-5a.5.5 0 0 1 .271-.445Z"/>
+                                </svg>
+                            </button>
+
+                        </form>
+                </div>
+
+                {% if devices %}
+                    <div class="text--center">
+                        <p class="text--center" style="font-size: larger; margin:10px; padding: 10px;">Available Devices</p>
+                        {% for device in devices %}
+                            <p class="text--center" style="font-size: small; color:rgb(199, 199, 199); padding: 5px 15px; margin:5px 0px;">{{ device }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 <div class="text--center">
                     <p style="word-wrap:break-word; color:#f82c2c; font-weight:400;" class="text--center">{{ error }}</p>
-                    <a style="left:50%; transform: translate(-50%); color:aliceblue; font-size:1.2rem;" href="/spotify/delete">Delete Account</a>
+                    <a style="left:50%; transform: translate(-50%); font-size:1.2rem;" href="/spotify/delete">Delete Account</a>
                 </div>
             {% else %}
                 <div style="height:56px; margin: 15px 0px;">
@@ -39,5 +95,36 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+    const playbutton = document.getElementById("play")
+    playbutton.addEventListener("click", Play);
+
+    const nextbutton = document.getElementById("next-song")
+    nextbutton.addEventListener("click", NextSong);
+
+    const previousbutton = document.getElementById("previous-song")
+    previousbutton.addEventListener("click", PreviousSong);
+
+    function UpdateCurrentSong(songname){
+        document.getElementById("current-song").innerHTML = songname;
+    }
+
+    function NextSong(){
+        UpdateCurrentSong("WAP by Cardi B")
+    }
+
+    function Play(){
+        UpdateCurrentSong("Yeah by Usher")
+    }
+
+    function PreviousSong(){
+        UpdateCurrentSong("All I Want For Christmas Is You by Mariah Carrie")
+    }
+
+</script>
+
 
 {% endblock %}
