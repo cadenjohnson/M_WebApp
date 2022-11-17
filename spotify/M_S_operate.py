@@ -79,7 +79,58 @@ def play(acc_token):
 
 
 def pause(acc_token):
-    pass
+    try:
+        url = prefix+"/me/player/pause"
+        headers={
+            "Authorization": f"Bearer {acc_token}",
+            "Content-Type": "application/json"
+            }
+
+        test = requests.put(url=url, headers=headers)
+        if test:
+            return {'success':'True'}
+        if test.status_code == 404:
+            return {'success':'False', 'message':'404 No Active Devices'}
+    except:
+        return {'success':'False', 'message':'error pausing'}
+
+
+
+def previous(acc_token):
+    try:
+        url = prefix+"/me/player/previous"
+        headers={
+            "Authorization": f"Bearer {acc_token}",
+            "Content-Type": "application/json"
+            }
+
+        test = requests.post(url=url, headers=headers)
+        if test:
+            return {'success':'True'}
+        if test.status_code == 404:
+            return {'success':'False', 'message':'404 No Active Devices'}
+    except:
+        return {'success':'False', 'message':'error skipping to previous'}
+
+
+
+def next(acc_token):
+    try:
+        url = prefix+"/me/player/next"
+        headers={
+            "Authorization": f"Bearer {acc_token}",
+            "Content-Type": "application/json"
+            }
+
+        test = requests.post(url=url, headers=headers)
+        if test:
+            return {'success':'True'}
+        if test.status_code == 404:
+            return {'success':'False', 'message':'404 No Active Devices'}
+    except:
+        return {'success':'False', 'message':'error skipping to next'}
+
+
 
 def shuffle_toggle(acc_token):
     pass

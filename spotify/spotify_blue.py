@@ -165,12 +165,19 @@ def play():
                 success = indexauth(spot_account)
                 if success:
                     if data['action'] == 'pause':
-                        return jsonify({'success':'False'})
                         # pause call to api
                         test = Operate.pause(spot_account.access_token)
                     elif data['action'] == 'play':
                         # play call to api
                         test = Operate.play(spot_account.access_token)
+                    elif data['action'] == 'next':
+                        # play call to api
+                        test = Operate.next(spot_account.access_token)
+                    elif data['action'] == 'previous':
+                        # play call to api
+                        test = Operate.previous(spot_account.access_token)
+                    else:
+                        return jsonify({'success':'False'})
                     
                     if test['success'] == 'True':
                         # current state call to api
@@ -181,8 +188,8 @@ def play():
                     else:
                         return jsonify(test)
         except:
-            return jsonify({'success':'False'})
+            return jsonify({'success':'False', 'message': 'error with route'})
 
-    return jsonify({'success':'False'})
+    return jsonify({'success':'False', 'message': 'error with method'})
 
 
