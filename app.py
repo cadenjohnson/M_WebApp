@@ -10,6 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
 from flask_login import login_required, login_user, current_user, LoginManager
+from flask_cors import CORS
 
 # Create instance of flask object
 app = Flask(__name__)
@@ -44,13 +45,23 @@ app.register_blueprint(tasks, url_prefix = '/todo')
 # localhost:5000/todo
 
 app.register_blueprint(spotify, url_prefix = '/spotify')
-# localhost:5000/todo
+# localhost:5000/spotify
 
 
 # Initiate login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
 from M_models import User
+
+
+
+# configuration for Cross-Origin Resource Sharing
+CORS(
+    app, 
+    resources={r'/spotify/play': {"origins": '*'}},
+    allow_headers="*",
+)
+
 
 
 # route for loading a user

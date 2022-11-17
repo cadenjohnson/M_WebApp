@@ -2,6 +2,10 @@
 
 {% block head %}
 <title>McKracken</title>
+<meta id="my-data" data-atoken="{{ atoken }}" data-isplaying="False">
+
+<!-- init page with current state data... just a thought -->
+
 {% endblock %}
 
 {% block body %}
@@ -21,26 +25,12 @@
      <!-- Right Side -->
     <div class="flexiestboi" style="height:90%; margin-top: 20px; margin-left: 20px; margin-right:25px; background-color:#383838; float: right; min-width: 400px;">
         <div class="vh_center flexy" style="flex-direction: column; width:auto; position: relative;">
-            {% if error %}
-
-<!--
-                <div style="width:100%; height:70px;">
-                    <form class="form login flexy" style="justify-content: center; position: absolute; margin: 10px; left: 50%; transform: translate(-50%); height: 50px; width: 200px;"">
-                        <div class="form__field" style="margin:0;">
-                            <input type="submit" value="<<">
-                        </div>
-                        <div class="form__field" style="margin:0 5px 0 5px;">
-                            <input type="submit" value="play/pause">
-                        </div>
-                        <div class="form__field" style="margin:0;">
-                            <input type="submit" value=">>">
-                        </div>
-                    </form>
-                </div>
--->
+            {% if atoken %}
 
                 <div class="text--center">
                     <h1 style="color:white; margin:0;" id="current-song">Nothing playing</h1>
+                    <p class="text--center" style="color: white; font-size: larger; margin:10px; padding: 10px;" id="current-artist">No Artist</p>
+
                 </div>
 
                 <div style="width:100%; height:70px;">
@@ -53,10 +43,17 @@
                                 </svg>
                             </button>
 
-                            <button style="background-color: transparent; border-color: transparent;" type="button" id="play">
+                            <button style="z-index: 202; background-color: transparent; border-color: transparent;" type="button" id="play">
                                 <svg xmlns="http://www.w3.org/2000/svg" style="margin: 0 10px 0 10px" class="music-icons bi bi-play-circle" viewBox="0 0 16 16">
                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                     <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
+                                </svg>
+                            </button>
+
+                            <button style="z-index: 200; display: none; background-color: transparent; border-color: transparent;" type="button" id="pause">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="margin: 0 10px 0 10px" class="music-icons bi bi-pause-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M5 6.25a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5zm3.5 0a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5z"/>
                                 </svg>
                             </button>
 
@@ -79,7 +76,7 @@
                     </div>
                 {% endif %}
                 <div class="text--center">
-                    <p style="word-wrap:break-word; color:#f82c2c; font-weight:400;" class="text--center">{{ error }}</p>
+                    <p style="word-wrap:break-word; color:#f82c2c; font-weight:400;" class="text--center">Logged In. Access Token= {{ atoken }}</p>
                     <a style="left:50%; transform: translate(-50%); font-size:1.2rem;" href="/spotify/delete">Delete Account</a>
                 </div>
             {% else %}
@@ -97,31 +94,116 @@
 </div>
 
 
-<script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    const playbutton = document.getElementById("play")
+<script>
+    const playbutton = document.getElementById("play");
     playbutton.addEventListener("click", Play);
 
-    const nextbutton = document.getElementById("next-song")
+    const pausebutton = document.getElementById("pause");
+    playbutton.addEventListener("click", Pause);
+
+    const nextbutton = document.getElementById("next-song");
     nextbutton.addEventListener("click", NextSong);
 
-    const previousbutton = document.getElementById("previous-song")
+    const previousbutton = document.getElementById("previous-song");
     previousbutton.addEventListener("click", PreviousSong);
 
-    function UpdateCurrentSong(songname){
+
+
+    function UpdateCurrentSong(songname, artist){
         document.getElementById("current-song").innerHTML = songname;
+        document.getElementById("current-artist").innerHTML = artist;
     }
 
     function NextSong(){
-        UpdateCurrentSong("WAP by Cardi B")
+        UpdateCurrentSong("WAP by Cardi B");
     }
 
-    function Play(){
-        UpdateCurrentSong("Yeah by Usher")
+    async function Pause(){
+        console.log($('#my-data').data().isplaying)
+        if($('#my-data').data().isplaying === 'True'){
+            var atoken = $('#my-data').data().atoken
+            var params = JSON.stringify({'atoken': atoken, 'action': 'pause'})
+
+            var response = await fetch('http://localhost:5000/spotify/pause', {
+                method: 'POST',
+                headers: {
+                    "Content-Type":  'application/json'
+                },
+                body: params
+            })
+                .then((response) => response.json())
+                .then((data)=> {
+                    console.log(data);
+                    if(data.success===True){
+                        UpdateCurrentSong(data.track, data.artist);
+                        if(data.isplaying===True){
+                            document.getElementById("play").style.display = 'none';
+                            document.getElementById("pause").style.display = 'block';
+                            document.getElementById("pause").style.zIndex = '205';
+                            var meta = document.getElementById('my-data');
+                            meta.setAttribute("data-isplaying", 'True')
+                        }
+                        else{
+                            document.getElementById("play").style.display = 'block';
+                            document.getElementById("pause").style.display = 'none';
+                            document.getElementById("pause").style.zIndex = '200';
+                            var meta = document.getElementById('my-data');
+                            meta.setAttribute("data-isplaying", 'False')
+                        }
+                    }
+                    else{
+                        alert(data.message);
+                    };
+                });
+            }
+    }
+
+
+    async function Play(){
+        console.log($('#my-data').data().isplaying)
+        if($('#my-data').data().isplaying === 'False'){
+            var atoken = $('#my-data').data().atoken
+            var params = JSON.stringify({'atoken': atoken, 'action': 'play'})
+
+            var response = await fetch('http://localhost:5000/spotify/play', {
+                method: 'POST',
+                headers: {
+                    "Content-Type":  'application/json'
+                },
+                body: params
+            })
+                .then((response) => response.json())
+                .then((data)=> {
+                    console.log(data);
+                    if(data.success===true){
+                        UpdateCurrentSong(data.track, data.artist);
+                        if(data.isplaying===true){
+                            document.getElementById("play").style.display = 'none';
+                            document.getElementById("pause").style.display = 'block';
+                            document.getElementById("pause").style.zIndex = '205';
+                            var meta = document.getElementById('my-data');
+                            meta.setAttribute("data-isplaying", 'True')
+                        }
+                        else{
+                            document.getElementById("play").style.display = 'block';
+                            document.getElementById("pause").style.display = 'none';
+                            document.getElementById("pause").style.zIndex = '200';
+                            var meta = document.getElementById('my-data');
+                            meta.setAttribute("data-isplaying", 'False')
+                        }
+                    }
+                    else{
+                        alert(data.message);
+                    };
+                });
+        }
+        console.log($('#my-data').data().isplaying)
     }
 
     function PreviousSong(){
-        UpdateCurrentSong("All I Want For Christmas Is You by Mariah Carrie")
+        UpdateCurrentSong("All I Want For Christmas Is You by Mariah Carrie");
     }
 
 </script>

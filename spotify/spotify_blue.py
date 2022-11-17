@@ -2,12 +2,11 @@
 #
 # Play that funky music white boi - 11/5/2022
 
-from flask import Blueprint, redirect, request, render_template
+from flask import Blueprint, redirect, request, render_template, jsonify
 from app import db, current_user
 from M_models import Spotifym
 from flask_login import login_required
 import spotify.M_S_authenticate as AUTH
-import spotipy
 import spotify.M_S_operate as Operate
 
 
@@ -24,7 +23,6 @@ def indexauth(spot_account):
             return False
         else:
             ref_token, acc_token, expires, scope = rdata
-            print(ref_token,' | ',acc_token,' | ',expires,' | ',scope)
 
         # update database with new data
         if ref_token != None:
@@ -53,10 +51,10 @@ def index():
             # assist w checks and updates
             success = indexauth(spot_account)
             if success:
-                # test case - display the playlists
+                # display the playlists and devices
                 playlists = Operate.get_playlists(spot_account.access_token)
                 devices = Operate.get_devices(spot_account.access_token)
-                return render_template('spotify_dash.html', playlists=playlists, devices=devices, error=('Logged In. Access Token= '+str(spot_account.access_token)))
+                return render_template('spotify_dash.html', playlists=playlists, devices=devices, atoken=str(spot_account.access_token))
 
             else:
                 return render_template('errorpage.html', error='Error with GET request for index')
@@ -148,4 +146,43 @@ def delete():
                 return render_template('errorpage.html', error='Error while attempting to delete account')
     else:
         return render_template('errorpage.html', error='Error. Incorect request method')
+
+
+
+# basically a proxy between client and spotify
+@spotify.route('/play', methods=['POST'])
+#@login_required
+def play():
+    if request.method == 'POST':
+        # Recieve access token
+        try:
+            data = request.json
+            access_token = data['atoken']
+
+            # validate access token
+            spot_account = Spotifym.query.filter_by(access_token=access_token).first()
+            if spot_account:
+                success = indexauth(spot_account)
+                if success:
+                    if data['action'] == 'pause':
+                        return jsonify({'success':'False'})
+                        # pause call to api
+                        test = Operate.pause(spot_account.access_token)
+                    elif data['action'] == 'play':
+                        # play call to api
+                        test = Operate.play(spot_account.access_token)
+                    
+                    if test['success'] == 'True':
+                        # current state call to api
+                        playback = Operate.playback_state(spot_account.access_token)
+                        
+                        # return json data
+                        return jsonify(playback)
+                    else:
+                        return jsonify(test)
+        except:
+            return jsonify({'success':'False'})
+
+    return jsonify({'success':'False'})
+
 

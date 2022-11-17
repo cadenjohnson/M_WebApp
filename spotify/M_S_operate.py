@@ -4,6 +4,7 @@
 # Caden Johnson - 11/9/2022
 
 import json, requests
+from flask import jsonify
 
 # just for references...
 #import spotipy
@@ -12,38 +13,70 @@ import json, requests
 global prefix
 prefix = "https://api.spotify.com/v1"
 
-def prep_request(url, payload, params, acc_token):
-    prefix="https://api.spotify.com/v1/"
-    url = prefix + url
-    args = dict(params=params)
-    headers={"Authorization": "Bearer {0}".format(acc_token)}
 
-    if "content_type" in args["params"]:
-        headers["Content-Type"] = args["params"]["content_type"]
-        del args["params"]["content_type"]
-        if payload:
-            data = payload
-    else:
-        headers["Content-Type"] = "application/json"
-        if payload:
-            args["data"] = json.dumps(payload)
-
+# must return as a json object
+def playback_state(acc_token):
     try:
-        if data:
-            response = requests.get(url=url, data=data, headers=headers)
+        url = prefix+"/me/player"
+        headers={
+            "Authorization": f"Bearer {acc_token}",
+            "Content-Type": "application/json"
+            }
+
+        playback = (requests.get(url=url, headers=headers)).json()
+
+        # return device, track, shuffle, repeat, isplaying, albumimage
+        if "device" in playback:
+            device = playback['device']['name']
         else:
-            response = requests.get(url=url, headers=headers)
-        return response
+            device = None
+        if "item" in playback:
+            track = playback['item']['name']
+            artist = playback['item']['artists'][0]['name']
+            try:
+                albumcover = playback['item']['album']['images'][2]['url']
+            except:
+                albumcover = None
+        else:
+            track = None
+        shuffle = playback['shuffle_state']
+        repeat = playback['repeat_state']
+        is_playing = playback['is_playing']
+
+        result = {
+            'success': True,
+            'device': device,
+            'track': track,
+            'artist': artist,
+            'shuffle': shuffle,
+            'repeat': repeat,
+            'isplaying': is_playing,
+            'albumcover': albumcover
+        }
+
+        return result
     except:
-        return False
+        return {'success':'False', 'message':'error getting current state'}
 
 
 
 def play(acc_token):
-    # create route that responds sends api post request
-    # then responds with only the current playing song 
-    # as the data to refresh on page
-    pass
+    try:
+        url = prefix+"/me/player/play"
+        headers={
+            "Authorization": f"Bearer {acc_token}",
+            "Content-Type": "application/json"
+            }
+
+        test = requests.put(url=url, headers=headers)
+        if test:
+            return {'success':'True'}
+        if test.status_code == 404:
+            return {'success':'False', 'message':'404 No Active Devices'}
+    except:
+        return {'success':'False', 'message':'error playing'}
+
+
 
 def pause(acc_token):
     pass
@@ -51,38 +84,48 @@ def pause(acc_token):
 def shuffle_toggle(acc_token):
     pass
 
+
+
 def get_devices(acc_token):
-    url = prefix+"/me/player/devices"
-    headers={
-        "Authorization": f"Bearer {acc_token}",
-        "Content-Type": "application/json"
-        }
+    try:
+        url = prefix+"/me/player/devices"
+        headers={
+            "Authorization": f"Bearer {acc_token}",
+            "Content-Type": "application/json"
+            }
 
-    devices = (requests.get(url=url, headers=headers)).json()
-    device_array = []
+        devices = (requests.get(url=url, headers=headers)).json()
+        device_array = []
 
-    for i, device in enumerate(devices['devices']):
-        temp = ("%4d |  %s" % (i + 1, device['name']))
-        device_array.append(temp)
+        for i, device in enumerate(devices['devices']):
+            temp = ("%4d |  %s" % (i + 1, device['name']))
+            device_array.append(temp)
 
-    return device_array
+        return device_array
+    except:
+        return ['Error getting devices']
+
 
 
 def get_playlists(acc_token):
-    url = prefix+"/me/playlists"
-    headers={
-        "Authorization": f"Bearer {acc_token}",
-        "Content-Type": "application/json"
-        }
+    try:
+        url = prefix+"/me/playlists"
+        headers={
+            "Authorization": f"Bearer {acc_token}",
+            "Content-Type": "application/json"
+            }
 
-    playlists = (requests.get(url=url, headers=headers)).json()
-    play_array = []
+        playlists = (requests.get(url=url, headers=headers)).json()
+        play_array = []
 
-    for i, playlist in enumerate(playlists['items']):
-        temp = ("%4d |  %s" % (i + 1 + playlists['offset'], playlist['name']))
-        play_array.append(temp)
+        for i, playlist in enumerate(playlists['items']):
+            temp = ("%4d |  %s" % (i + 1 + playlists['offset'], playlist['name']))
+            play_array.append(temp)
 
-    return play_array
+        return play_array
+    except:
+        return ['Error getting playlists']
+
 
 
 def get_currently_playing(acc_token):
