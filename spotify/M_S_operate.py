@@ -24,7 +24,7 @@ def playback_state(acc_token):
             }
 
         playback = (requests.get(url=url, headers=headers)).json()
-
+        print(playback)
         # return device, track, shuffle, repeat, isplaying, albumimage
         if "device" in playback:
             device = playback['device']['name']
@@ -34,7 +34,7 @@ def playback_state(acc_token):
             track = playback['item']['name']
             artist = playback['item']['artists'][0]['name']
             try:
-                albumcover = playback['item']['album']['images'][2]['url']
+                albumcover = playback['item']['album']['images'][1]['url']
             except:
                 albumcover = None
         else:
@@ -54,6 +54,7 @@ def playback_state(acc_token):
             'albumcover': albumcover
         }
 
+        print(result)
         return result
     except:
         return {'success':'False', 'message':'error getting current state'}
